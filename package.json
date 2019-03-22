@@ -44,7 +44,7 @@
   "scripts": {
     "watch": "webpack --watch --progress --mode production",
     "start": "webpack-dev-server --hot --open",
-    "build": "webpack --mode production",
+    "build": "webpack --mode development",
     "publish": "npm publish"
   },
   "keywords": [

@@ -8,7 +8,7 @@ module.exports = [
       './src/quill.mention.js',
     ],
     output: {
-      filename: 'quill.mention.min.js',
+      filename: 'quill.mention.js',
       path: path.resolve(__dirname, 'dist'),
     },
     devServer: {
@@ -40,9 +40,9 @@ module.exports = [
       ],
     },
     plugins: [
-      new UglifyJSPlugin({
-        extractComments: true,
-      }),
+      // new UglifyJSPlugin({
+      //   extractComments: true,
+      // }),
       new ExtractTextPlugin('quill.mention.min.css'),
     ],
   },
