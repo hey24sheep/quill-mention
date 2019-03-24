@@ -63,7 +63,7 @@ class Mention {
       this.mentionContainer.style.width = 'auto';
     }
 
-    this.mentionList = document.createElement('ul');
+    this.mentionList = document.createElement('mat-autocomplete');
     this.mentionList.className = this.options.mentionListClass ? this.options.mentionListClass : '';
     this.mentionContainer.appendChild(this.mentionList);
 
@@ -232,23 +232,46 @@ class Mention {
     return mention;
   }
 
+  renderListItem(mentionChar, data, htmlInput, searchTerm) {
+    if (data && data.length > 0) {
+      this.values = data;
+
+      console.log('nooob : : ', data);
+      for (let i = 0; i < data.length; i += 1) {
+        const matOption = document.createElement('mat-option');
+        matOption.className = this.options.listItemClass ? this.options.listItemClass : '';
+        matOption.dataset.index = i;
+        matOption.innerHTML = this.options.renderItem(data[i], searchTerm);
+        // matOption.onmouseenter = this.onItemMouseEnter.bind(this);
+        matOption.dataset.denotationChar = mentionChar;
+        matOption.onclick = this.onItemClick.bind(this);
+        htmlInput.appendChild(this.attachDataValues(matOption, data[i]));
+      }
+      // this.itemIndex = 0;
+      // this.highlightItem();
+      // this.showMentionList();
+    }
+  }
+
   renderList(mentionChar, data, searchTerm) {
     if (data && data.length > 0) {
       this.values = data;
       this.mentionList.innerHTML = '';
-
       for (let i = 0; i < data.length; i += 1) {
-        const li = document.createElement('li');
-        li.className = this.options.listItemClass ? this.options.listItemClass : '';
-        li.dataset.index = i;
-        li.innerHTML = this.options.renderItem(data[i], searchTerm);
-        li.onmouseenter = this.onItemMouseEnter.bind(this);
-        li.dataset.denotationChar = mentionChar;
-        li.onclick = this.onItemClick.bind(this);
-        this.mentionList.appendChild(this.attachDataValues(li, data[i]));
+        const matGroup = document.createElement('mat-optgroup');
+        matGroup.className = this.options.listItemClass ? this.options.listItemClass : '';
+        matGroup.dataset.index = i;
+        matGroup.setAttribute('label', data[i].label);
+        // matGroup.innerHTML = this.options.renderItem(data[i], searchTerm);
+         this.renderListItem(mentionChar, data[i].items, matGroup, searchTerm);
+        // matGroup.onmouseenter = this.onItemMouseEnter.bind(this);
+        matGroup.dataset.denotationChar = mentionChar;
+        // matGroup.onclick = this.onItemClick.bind(this);
+        console.log(matGroup);
+        this.mentionList.appendChild(matGroup);
       }
       this.itemIndex = 0;
-      this.highlightItem();
+      // this.highlightItem();
       this.showMentionList();
     } else {
       this.hideMentionList();

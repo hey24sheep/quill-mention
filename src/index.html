@@ -23,7 +23,7 @@
 
   <!-- Include the Quill library -->
   <script src="https://cdn.quilljs.com/1.3.4/quill.js"></script>
-  <script src="quill.mention.min.js"></script>
+  <script src="quill.mention.js"></script>
   <style>
     body {
       font-size: 16px;
@@ -88,7 +88,6 @@
       padding-left: 20px;
       transition-duration: 0.3s;
     }
-
   </style>
   <!-- Initialize Quill editor -->
   <script>
@@ -103,6 +102,33 @@
       { "id": "5a97b2a4436c2c9acc6b5ad3", "value": "Richard Smith", "link": "mailto:richard@smith.com", "myCustomProperty": "custom value" }
     ];
 
+    const atValues1 = [
+      {
+        label: "User",
+        items: [{ "id": "5a97b2a402de91c5b6c3e8a4", "value": "Josie Rice", "link": "http://www.josierice.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a464a8ff2d0996d2ef", "value": "Elva Bowman", "link": "mailto:elva@bowman.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a4ecb768a2092a298b", "value": "Ella Cochran", "link": "http://www.ellacochran.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a418b984d2aff97657", "value": "Knowles Walls", "link": "mailto:knowles@walls.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a4436c2c9acc6b5ad0", "value": "Hanson Webb", "link": "http://www.hansonwebb.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a4436c2c9acc6b5ad1", "value": "Maria Cruz", "link": "mailto:maria@cruz.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a4436c2c9acc6b5ad2", "value": "Pablo Escobar", "link": "http://www.pabloescobar.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a4436c2c9acc6b5ad3", "value": "Richard Smith", "link": "mailto:richard@smith.com", "myCustomProperty": "custom value" }
+        ]
+      },
+      {
+        label: "Company",
+        items: [{ "id": "5a97b2a402de91c5b6c3e8a4", "value": "CC", "link": "http://www.josierice.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a464a8ff2d0996d2ef", "value": "Bowman", "link": "mailto:elva@bowman.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a4ecb768a2092a298b", "value": "chran", "link": "http://www.ellacochran.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a418b984d2aff97657", "value": "alls", "link": "mailto:knowles@walls.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a4436c2c9acc6b5ad0", "value": "ebb", "link": "http://www.hansonwebb.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a4436c2c9acc6b5ad1", "value": "Cruz", "link": "mailto:maria@cruz.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a4436c2c9acc6b5ad2", "value": "Pablo Escobar", "link": "http://www.pabloescobar.com", "myCustomProperty": "custom value" },
+        { "id": "5a97b2a4436c2c9acc6b5ad3", "value": "Richard Smith", "link": "mailto:richard@smith.com", "myCustomProperty": "custom value" }
+        ]
+      }
+    ];
+
     const hashValues = [
       { "id": "5a97b2a402de91c5b6c3e8a5", "value": "Josie Price", "myCustomProperty": "custom value" },
       { "id": "5a97b2a464a8ff2d0996d2eg", "value": "Elva Showman", "myCustomProperty": "custom value" },
@@ -115,9 +141,9 @@
     ];
 
     const actionValues = [
-        {"id": "1", "value": "Porsche"},
-        {"id": "1", "value": "Volkswagen"},
-        {"id": "1", "value": "BMW"},
+      { "id": "1", "value": "Porsche" },
+      { "id": "1", "value": "Volkswagen" },
+      { "id": "1", "value": "BMW" },
     ];
 
     var quill = new Quill('#editor', {
@@ -130,18 +156,18 @@
             let values;
 
             if (mentionChar === "@") {
-                values = atValues;
+              values = atValues1;
             } else {
-                values = hashValues;
+              values = hashValues;
             }
 
             if (searchTerm.length === 0) {
-                renderList(values, searchTerm);
+              renderList(values, searchTerm);
             } else {
-                const matches = [];
-                for (i = 0; i < values.length; i++)
-                    if (~values[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())) matches.push(values[i]);
-                renderList(matches, searchTerm);
+              const matches = [];
+              for (i = 0; i < values.length; i++)
+                if (~values[i].value.toLowerCase().indexOf(searchTerm.toLowerCase())) matches.push(values[i]);
+              renderList(matches, searchTerm);
             }
           },
         },
@@ -150,7 +176,7 @@
 
     let quillAction = null;
 
-    disable = function(id, value) {
+    disable = function (id, value) {
       const editor = document.getElementById(id);
       if (value === false) {
         quillAction.enable(true);
@@ -183,7 +209,7 @@
               disable('editor-onselect', true);
               document.getElementById('action-data').innerHTML = `<span>Creating: ${data.query}</span>`;
               setTimeout(() => {
-                insertItem({"id": "fake-id", "value": data.query});
+                insertItem({ "id": "fake-id", "value": data.query });
                 disable('editor-onselect', false);
               }, 1000);
             } else {
@@ -202,7 +228,7 @@
                   matches.push(values[i])
                 }
               }
-              matches.push({"query": searchTerm});
+              matches.push({ "query": searchTerm });
               renderList(matches, searchTerm);
             }
 
